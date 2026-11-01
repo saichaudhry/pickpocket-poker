@@ -35,6 +35,25 @@
         <button id="next-round-button" class="hidden">Next round</button>
       </div>
       <ul id="message-log"></ul>
+
+      <!-- Quick rules for players. Static text: if you change a rule in gameState.js or
+           SPEC.md, update it here too. -->
+      <details id="rules-panel" open>
+        <summary>How to play</summary>
+        <ul>
+          <li><strong>Goal:</strong> best poker hand wins the pot, but go over <strong>21</strong> and you bust.</li>
+          <li>Card values: 2–10 as shown, J/Q/K = 10, A = 11 or 1.</li>
+          <li>You start with <strong>2 hidden cards</strong>. Everyone antes into the pot.</li>
+          <li>Each turn pick one:
+            <strong>Draw</strong> (face-up card from the deck),
+            <strong>Steal</strong> (take another player's face-up card; they draw a replacement), or
+            <strong>Stand</strong>.</li>
+          <li>Every card you draw is face-up, so it can be stolen from you.</li>
+          <li>Max 5 cards. Straights, flushes and full houses need all 5.</li>
+          <li>After <strong>4 turns</strong>, hands are revealed. Ties split the pot; if everyone busts, the pot carries over.</li>
+          <li>The ante doubles every 3 rounds. Last player with chips wins.</li>
+        </ul>
+      </details>
     </div>
   </section>
 

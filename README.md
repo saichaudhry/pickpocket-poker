@@ -33,6 +33,8 @@ What's on screen:
   opponents can't see that card and can't steal it.
 - Your card total is shown only to you, until the showdown.
 - The log on the right shows the newest action first.
+- The **How to play** box under the log has the rules in short form. Click its title to
+  collapse it.
 
 ## Acceptance criteria status (numbers match SPEC.md)
 
@@ -89,7 +91,7 @@ the files above it.
 
 | File | Responsibility | Go here to change… |
 |------|----------------|--------------------|
-| `index.html` | Page structure: setup screen, canvas, buttons, log, game-over overlay. A TODO marks where the P3 cover goes. | Adding screens, overlays or buttons |
+| `index.html` | Page structure: setup screen, canvas, buttons, log, the **How to play** rules box, game-over overlay. A TODO marks where the P3 cover goes. | Adding screens, overlays or buttons |
 | `css/style.css` | Page styling only (not the table). | Button and panel look, page palette |
 | `js/cards.js` | Deck creation and shuffle; **blackjack** values (`handTotal`, `isBust`); `cardLabel`. Cards are `{ rank: 2–14, suit, faceUp }`, with Ace = 14. | Card values, Ace rule |
 | `js/pokerRank.js` | **Poker** hand evaluation for 2–5 cards (`evaluateHand`) and comparison (`compareHands`). Enforces "straights/flushes need 5 cards". | Hand ranking, tie-breaking |
@@ -139,6 +141,8 @@ How the pieces talk:
   seat 0 the winner as a fallback. I've never seen this happen.
 - **All-bot games stop at each round end** until someone clicks **Next round**. That's harmless,
   but an all-bot table doesn't run by itself.
+- **The How to play box is static HTML.** If you change a rule (in `gameState.js` or SPEC.md),
+  update the bullets in `index.html` too, or they'll be wrong.
 - **Steal-mode click on your own card** shows "Pick another player's card" in the status line.
 - **`compareHands()` counts an extra kicker as better** (spec rule: "the hand with the extra
   kicker wins"). This is correct for the showdown but wrong for bot steal decisions; see

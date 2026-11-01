@@ -90,12 +90,34 @@ button.active { background: var(--accent); color: #14110f; }
 }
 
 #message-log {
-  max-height: 440px;
+  max-height: 220px;
   overflow-y: auto;
   padding-left: 20px;
   color: var(--muted);
   font-size: 14px;
 }
+
+#rules-panel {
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--panel);
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+#rules-panel summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 16px;
+}
+
+#rules-panel ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+#rules-panel li { margin-bottom: 6px; }
 
 .overlay {
   position: fixed;
