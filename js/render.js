@@ -186,7 +186,7 @@ function drawCenterInfo(context, game) {
   context.font = '16px Georgia';
   context.fillStyle = TABLE_COLORS.muted;
   const turnText = game.phase === GAME_PHASE.TURNS
-    ? `Round ${game.roundNumber} · Turn ${game.turnNumber} of ${TURNS_PER_ROUND}`
+    ? `Round ${game.roundNumber} · Turn ${game.turnNumber} of ${TURNS_PER_ROUND} · Ante ${game.getCurrentAnte()}`
     : `Round ${game.roundNumber} · Showdown`;
   context.fillText(turnText, centerX, centerY + 18);
 }

@@ -22,13 +22,14 @@ function chooseBotAction(game, botSeat) {
   //   - for each option in game.getStealableCards(botSeat) (only if game.canSteal(botSeat)):
   //       const newHand = [...bot.hand, option.card];
   //       skip if isBust(newHand)
-  //       keep it if compareHands(evaluateHand(newHand), evaluateHand(bot.hand)) > 0
+  //       keep it only if evaluateHand(newHand).category > evaluateHand(bot.hand).category
   //   - pick the option whose evaluateHand(newHand) is best (use compareHands to sort)
   //   - return { type: 'steal', victimIndex: option.victimIndex, cardIndex: option.cardIndex }
-  // Careful: "improve its poker rank" — adding any card adds a kicker, and compareHands
-  // treats an extra kicker as better. Compare `.category` only if you want steals to require
-  // a real category upgrade (e.g. high card -> pair). The spec says "poker rank", so
-  // comparing categories is probably closer to what the author meant.
+  // DECIDED BY THE AUTHOR: "improve" means the hand CATEGORY goes up (e.g. high card -> pair,
+  // pair -> two pair). Compare evaluateHand(newHand).category > evaluateHand(bot.hand).category.
+  // Do NOT use compareHands() for this check: any extra card adds a kicker, which compareHands
+  // counts as better, and bots would steal nearly every turn. (compareHands IS the right tool
+  // for choosing the BEST of several qualifying steals.)
 
   if (game.canDraw(botSeat) && handTotal(bot.hand) <= BOT_DRAW_THRESHOLD) {
     return { type: 'draw' };

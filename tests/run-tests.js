@@ -202,6 +202,16 @@ test('everyone busts: pot carries over into next round', () => {
   assertEqual(game.dealerIndex, 1); // button moved
 });
 
+test('ante doubles every 3 rounds', () => {
+  const game = gameWithDeck(2, '');
+  const antes = [];
+  for (let round = 1; round <= 7; round++) {
+    game.roundNumber = round;
+    antes.push(game.getCurrentAnte());
+  }
+  assertEqual(antes, [10, 10, 10, 20, 20, 20, 40]);
+});
+
 test('player with 0 chips is eliminated and game ends', () => {
   const game = gameWithDeck(2, 'KH KS 9H 4S');
   game.players[0].chips = 0; // seat 0 anted their last 10

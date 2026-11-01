@@ -40,8 +40,11 @@ The atmosphere is quiet and deliberate rather than flashy.
 - A hand's **total** is the sum of these values.
 
 ### A round
-1. **Ante:** each player still in the game puts **10 chips** into the pot. A player with fewer
-   than 10 chips puts in everything they have.
+1. **Ante:** each player still in the game puts the ante into the pot. The ante starts at
+   **10 chips and doubles every 3 rounds** (rounds 1–3: 10, rounds 4–6: 20, rounds 7–9: 40, …),
+   so games end in about 10–15 rounds instead of dragging on. A player with less than the ante
+   puts in everything they have. *(Added after Phase 1 testing: with a flat 10-chip ante,
+   simulated games averaged ~200 rounds.)*
 2. **Deal:** each player gets **2 cards face-down**. Hidden cards are visible only to their owner.
 3. **Turns:** there are **4 turns per round**. Each turn, every non-busted player acts once, in
    seat order, starting with the seat to the left of the dealer. The dealer button moves one seat
@@ -86,7 +89,9 @@ straight, three of a kind, two pair, pair, high card.
 ### Bots
 On its turn, a bot follows these steps in order:
 1. **Steal** if some face-up card on the table would **improve its poker rank without busting
-   it**. If several would, it takes the one that gives the best resulting hand.
+   it**. If several would, it takes the one that gives the best resulting hand. "Improve" means
+   the hand **category** goes up (high card → pair, pair → two pair, etc.). A better kicker
+   alone does not count.
 2. Otherwise **draw** if its total is **15 or less** and it holds fewer than 5 cards.
 3. Otherwise **stand**.
 
@@ -115,8 +120,8 @@ Bots wait about **1 second** before acting, so a human can follow what happened.
 ### P1 — Core round loop (must work; the game doesn't exist without it)
 1. Opening `index.html` in a modern browser starts the game with no install or build step.
 2. A setup screen lets the player choose 2–4 seats and set each seat to Human or Bot, then start.
-3. Each player starts with 100 chips; at the start of each round, every player antes 10 (or all
-   their chips if they have fewer than 10) and the pot shows the total.
+3. Each player starts with 100 chips; at the start of each round, every player pays the ante
+   (10, doubling every 3 rounds; or all their chips if they have less) and the pot shows the total.
 4. Each player is dealt 2 face-down cards at the start of the round.
 5. Card totals follow the blackjack rules (J/Q/K = 10, each Ace = 11 unless that would bust, then 1).
 6. On a human's turn, Draw, Steal and Stand buttons work as described in the rules. Stealing lets

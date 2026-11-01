@@ -8,7 +8,10 @@
 // Depends on globals from cards.js and pokerRank.js (loaded first in index.html).
 
 const STARTING_CHIPS = 100;
-const ANTE = 10;
+const BASE_ANTE = 10;
+// The ante doubles every few rounds (10, 10, 10, 20, 20, 20, 40...). Without this, a flat
+// ante made simulated games last ~200 rounds; with it they finish in a sitting.
+const ANTE_DOUBLES_EVERY_ROUNDS = 3;
 const TURNS_PER_ROUND = 4;
 const STARTING_HAND_SIZE = 2;
 const MAX_HAND_SIZE = 5;
@@ -79,9 +82,10 @@ class Game {
 
     // Ante. A short-stacked player antes everything they have. If the last round's pot
     // carried over (everyone busted), these antes are added on top of it.
+    const roundAnte = this.getCurrentAnte();
     for (const seat of this.turnOrder) {
       const player = this.players[seat];
-      const ante = Math.min(ANTE, player.chips);
+      const ante = Math.min(roundAnte, player.chips);
       player.chips -= ante;
       this.pot += ante;
     }
@@ -95,7 +99,7 @@ class Game {
       }
     }
 
-    this.addLog(`Round ${this.roundNumber} — ${this.players[this.dealerIndex].name} deals. Pot: ${this.pot}`);
+    this.addLog(`Round ${this.roundNumber} — ${this.players[this.dealerIndex].name} deals. Ante ${roundAnte}, pot ${this.pot}`);
 
     // Two starting cards can never bust (max is A+A = 12), so nobody busts on the deal.
     this.turnNumber = 1;
@@ -111,6 +115,11 @@ class Game {
   }
 
   // ---------- Queries the UI (and later the bots) use ----------
+
+  // Ante for the current round (roundNumber starts at 1).
+  getCurrentAnte() {
+    return BASE_ANTE * 2 ** Math.floor((this.roundNumber - 1) / ANTE_DOUBLES_EVERY_ROUNDS);
+  }
 
   getCurrentPlayer() {
     return this.players[this.currentPlayerIndex];
@@ -310,5 +319,5 @@ class Game {
 }
 
 if (typeof module !== 'undefined') {
-  module.exports = { Game, GAME_PHASE, PLAYER_STATUS, STARTING_CHIPS, ANTE, TURNS_PER_ROUND, MAX_HAND_SIZE };
+  module.exports = { Game, GAME_PHASE, PLAYER_STATUS, STARTING_CHIPS, BASE_ANTE, ANTE_DOUBLES_EVERY_ROUNDS, TURNS_PER_ROUND, MAX_HAND_SIZE };
 }
